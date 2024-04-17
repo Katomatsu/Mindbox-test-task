@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import TodoList from "./components/TodoList.tsx";
+import AddTodoForm from "./components/AddTodoForm.tsx";
+import {TodoModel} from "./models/TodoModel.ts";
+import {useState} from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [todos, setTodos] = useState<TodoModel[]>([])
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const addTodo = (todo: TodoModel) => {
+        setTodos(prevTodos => [todo, ...prevTodos]);
+    }
+
+    const deleteTodo = (id: string) => {
+        const filteredTodos: TodoModel[] = todos.filter(todo => todo.id !== id);
+        setTodos(filteredTodos);
+    }
+
+    const clearCompletedTodos = () => {
+        const filteredTodos: TodoModel[] = todos.filter(todo => !todo.isComplete);
+        setTodos(filteredTodos);
+    }
+
+    const changeTodoProgress = (id: string) => {
+        const updatedTodos = todos.map((todo: TodoModel) => {
+            return todo.id === id ? {...todo, isComplete: !todo.isComplete} : todo
+        })
+        setTodos(updatedTodos)
+    }
+
+    return (
+        <>
+            <h1 className={'text-5xl'}>Todos</h1>
+            <AddTodoForm onAddTodo={addTodo} />
+            <TodoList onClearCompletedTodos={clearCompletedTodos} onChangeTodoProgress={changeTodoProgress} onDeleteTodo={deleteTodo} todos={todos} />
+        </>
+    )
 }
 
 export default App
