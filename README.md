@@ -3,7 +3,7 @@
 ## To install the project on your local machine:
 
 ### Call: `git clone https://github.com/Katomatsu/Mindbox-test-task.git`
-### After opening installing the application:
+### After opening installed the application:
 #### For npm:
 1. `npm install`
 2. `npm run dev`
