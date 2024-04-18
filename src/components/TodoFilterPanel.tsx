@@ -8,8 +8,9 @@ interface FilterListProps {
     onClearCompletedTodos: () => void;
 }
 
-const FiltersList = ({onChangeFilter, todos, onClearCompletedTodos}: FilterListProps) => {
-    const [filters, setFilters] = useState<FiltersModel[]>([{name: 'All', isActive: true},
+const TodoFilterPanel = ({onChangeFilter, todos, onClearCompletedTodos}: FilterListProps) => {
+    const [filters, setFilters] = useState<FiltersModel[]>([
+        {name: 'All', isActive: true},
         {name: 'Active', isActive: false},
         {name: 'Completed', isActive: false}
     ])
@@ -27,15 +28,15 @@ const FiltersList = ({onChangeFilter, todos, onClearCompletedTodos}: FilterListP
     }
 
     return (
-        <ul className={'flex justify-between items-center mt-2'}>
-            <li>{activeTodosCount()} {activeTodosCount() !== 1 ? 'items left' : 'item left'}</li>
+        <div className={'flex justify-between items-center mt-2'}>
+            <div>{activeTodosCount()} {activeTodosCount() !== 1 ? 'items left' : 'item left'}</div>
             <div className={'flex justify-center items-center gap-x-4'}>{filters.map((filter) => (
-                <li key={filter.name} onClick={() => filterChangeHandler(filter.name)}
-                    className={`cursor-pointer ${filter.isActive ? 'p-2 border' : ''}`}>{filter.name}</li>
+                <button key={filter.name} onClick={() => filterChangeHandler(filter.name)}
+                    className={`cursor-pointer ${filter.isActive ? 'p-2 border' : ''}`}>{filter.name}</button>
             ))}</div>
-            <li className={'cursor-pointer'} onClick={onClearCompletedTodos}>Clear completed</li>
-        </ul>
+            <button className={'cursor-pointer'} onClick={onClearCompletedTodos}>Clear completed</button>
+        </div>
     );
 };
 
-export default FiltersList;
+export default TodoFilterPanel;

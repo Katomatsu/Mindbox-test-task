@@ -1,7 +1,7 @@
 import TodoItem from "./TodoItem.tsx";
 import {TodoModel} from "../models/TodoModel.ts";
 import {useEffect, useState} from "react";
-import FiltersList from "./FiltersList.tsx";
+import TodoFilterPanel from "./TodoFilterPanel.tsx";
 
 interface TodoListProps {
     todos: TodoModel[];
@@ -43,7 +43,7 @@ const TodoList = ({todos, onDeleteTodo, onChangeTodoProgress, onClearCompletedTo
                                      onDeleteTodo={onDeleteTodo} todo={todo}/>
                 })}
             </ul>
-            <FiltersList onClearCompletedTodos={onClearCompletedTodos} todos={todos} onChangeFilter={changeFilter}/>
+            <TodoFilterPanel onClearCompletedTodos={onClearCompletedTodos} todos={todos} onChangeFilter={changeFilter}/>
         </>
     );
 };

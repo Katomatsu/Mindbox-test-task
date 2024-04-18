@@ -2,23 +2,29 @@ import './App.css'
 import TodoList from "./components/TodoList.tsx";
 import AddTodoForm from "./components/AddTodoForm.tsx";
 import {TodoModel} from "./models/TodoModel.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+
+const getLocalStorageTodos = () : TodoModel[]  => {
+    const storedTodos  = localStorage.getItem("todos");
+    if (storedTodos) {
+        return JSON.parse(storedTodos);
+    }
+    return []
+}
 
 function App() {
-    const [todos, setTodos] = useState<TodoModel[]>([])
+    const [todos, setTodos] = useState<TodoModel[]>(getLocalStorageTodos)
 
     const addTodo = (todo: TodoModel) => {
         setTodos(prevTodos => [todo, ...prevTodos]);
     }
 
     const deleteTodo = (id: string) => {
-        const filteredTodos: TodoModel[] = todos.filter(todo => todo.id !== id);
-        setTodos(filteredTodos);
+        setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
     }
 
     const clearCompletedTodos = () => {
-        const filteredTodos: TodoModel[] = todos.filter(todo => !todo.isComplete);
-        setTodos(filteredTodos);
+        setTodos(prevTodos => prevTodos.filter(todo => !todo.isComplete));
     }
 
     const changeTodoProgress = (id: string) => {
@@ -27,6 +33,11 @@ function App() {
         })
         setTodos(updatedTodos)
     }
+
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos))
+    }, [todos]);
+
 
     return (
         <>
