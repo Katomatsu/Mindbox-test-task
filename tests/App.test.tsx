@@ -40,8 +40,10 @@ describe('App', () => {
 
     test('Deleting todo', async () => {
         render(<App/>)
-        const todoText = screen.getByText('Test Todo');
-        fireEvent.click(todoText);
+        const todoItem = screen.getByText('Test Todo').parentNode as HTMLLIElement;
+        const button = todoItem.querySelector('button') as HTMLButtonElement;
+        fireEvent.click(button);
+
 
         await waitFor(() => {
             expect(screen.queryByText('Test Todo')).to.not.exist
